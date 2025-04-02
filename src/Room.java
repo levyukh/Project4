@@ -11,7 +11,8 @@ import java.util.HashSet;
 public class Room {
     private BufferedImage floor;
     private ArrayList<Entity> drawableEntities=new ArrayList<Entity>();
-    private HashSet<CollidableEntity> collidableEntities=new HashSet<CollidableEntity>();
+    private HashSet<Entity> collidableEntities=new HashSet<Entity>();
+    private HashSet<LivingEntity> damagableEntities=new HashSet<LivingEntity>();
     private HashMap<String,Exit> exits=new HashMap<String,Exit>();
     private Player player=null;
 
@@ -26,10 +27,10 @@ public class Room {
         }
 
         floor = TileMap.tileMapMaker(floor,width,height);
-        new CollidableEntity(this,800,50,0,0,3,TileMap.tileMapMaker(wall,(int)(800/wall.getWidth()+1), 1));
-        new CollidableEntity(this,800,50,0,640-2*wall.getHeight(),3,TileMap.tileMapMaker(wall,(int)(800/wall.getWidth()), 1));
-        new CollidableEntity(this,50,640,0,0,3,TileMap.tileMapMaker(wall,1, (int)(640/wall.getHeight()+1)));
-        new CollidableEntity(this,50,640,800-2*wall.getWidth(),0,3,TileMap.tileMapMaker(wall,1, (int)(640/wall.getHeight())));
+        new Entity(this,800,50,0,0,TileMap.tileMapMaker(wall,(int)(800/wall.getWidth()+1), 1),true);
+        new Entity(this,800,50,0,640-2*wall.getHeight(),TileMap.tileMapMaker(wall,(int)(800/wall.getWidth()), 1),true);
+        new Entity(this,50,640,0,0,TileMap.tileMapMaker(wall,1, (int)(640/wall.getHeight()+1)),true);
+        new Entity(this,50,640,800-2*wall.getWidth(),0,TileMap.tileMapMaker(wall,1, (int)(640/wall.getHeight())),true);
         if(hasBottomExit)new Exit(this,"Bottom Exit");
         if(hasLeftExit)new Exit(this,"Left Exit");
         if(hasRightExit)new Exit(this,"Right Exit");
@@ -49,8 +50,11 @@ public class Room {
     }
 
 
+    public HashSet<LivingEntity> getDamagableEntities() {
+        return damagableEntities;
+    }
 
-    public HashSet<CollidableEntity> getCollidableEntities() {
+    public HashSet<Entity> getCollidableEntities() {
         return collidableEntities;
     }
     public void roomPhysics(){
@@ -75,8 +79,12 @@ public class Room {
         }
     }
 
-    public void addCollidable(CollidableEntity entity){
+    public void addCollidable(Entity entity){
         collidableEntities.add(entity);
     }
+    public void addDamagable(LivingEntity entity){
+        damagableEntities.add(entity);
+    }
+
 
 }

@@ -1,6 +1,7 @@
-public class Exit extends CollidableEntity{
+public class Exit extends Entity{
+
     public Exit(Room room ,String exit){
-        super(room,100,100,-500,-500,3,"Sprites/Exit.png");
+        super(room,100,100,-500,-500,"Sprites/Exit.png",false);
         room.getCollidableEntities().remove(this);
         switch (exit){
             case "Bottom Exit":getPosition().setVector(400,450);

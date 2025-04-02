@@ -36,4 +36,9 @@ public class Vector2 {
     public int getY() {
         return y;
     }
+    public void normalize(){
+        float diagonalFactor = (float) (1 / Math.sqrt(2));
+        x*=diagonalFactor;
+        y*=diagonalFactor;
+    }
 }
