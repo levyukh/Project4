@@ -9,9 +9,7 @@ import java.awt.event.KeyListener;
 public class Display extends JPanel implements KeyListener {
 
 
-    Room room=new Room("Sprites/floor.png",25,20,false,true,false,true);
-    CollidableEntity z=new CollidableEntity(room,130,120,300,210,"Sprites/wall.png");
-    LivingEntity ce=new LivingEntity(room,60,180,500,310,"Sprites/wall.png",3,200);
+    Room room = new Room("Sprites/floor.png", 25, 20, false, true, false, true);
     Room room2=new Room("Sprites/floor.png",25,20,true,true,true,true);
     CollidableEntity gf=new CollidableEntity(room2,130,120,300,120,"Sprites/wall.png");
     Room room3=new Room("Sprites/floor.png",25,20,true,true,true,true);
@@ -29,7 +27,7 @@ public class Display extends JPanel implements KeyListener {
 
     public Display(int width, int height, String title){
 
-        ce.setSpeed(new Vector2(0,-100));
+        RoomTypes.roomType1(room);
         JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
