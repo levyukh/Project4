@@ -2,6 +2,7 @@ public class Enemy extends LivingEntity{
     private Vector2 targetPos;
     private Attack attack=new Attack(this);
     private int attackStat;
+    private int dir=1;//1=right 2=left 3=up 4=down
     public Enemy(Room room, int w, int h, int x, int y, String spitePath, int hp, int speed,int attack) {
         super(room, w, h, x, y, spitePath, hp, speed);
         attackStat=attack;
@@ -11,13 +12,23 @@ public class Enemy extends LivingEntity{
         return attackStat;
     }
 
+    public void setAttack(Attack attack) {
+        this.attack = attack;
+    }
+
     public Vector2 getTargetPos() {
         return targetPos;
     }
     public void setTargetPos(Vector2 newTargetPos){
         targetPos=newTargetPos;
     }
+    private void dir(){
+        if(getSpeed().getX()>0) dir=1;
+        else if(getSpeed().getX()<0) dir=2;
+        else if(getSpeed().getY()<0) dir=3;
+        else if(getSpeed().getY()>0) dir=4;
 
+    }
     @Override
     protected void movementLogic() {
         if(getRoom().getPlayer()!=null) targetPos=getRoom().getPlayer().getPosition();
@@ -54,10 +65,15 @@ public class Enemy extends LivingEntity{
         }
     }
 
+    public int getDir() {
+        return dir;
+    }
+
     @Override
     public void move() {
         attack.updateCooldown();
         super.move();
+        dir();
     }
 
     public void attack(){

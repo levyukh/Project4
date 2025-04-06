@@ -13,6 +13,22 @@ public class Attack {
         }
 
     }
+
+    public boolean canAttack() {
+        return canAttack;
+    }
+
+    public Enemy getAttacker() {
+        return attacker;
+    }
+
+    public void setCooldown(double cooldown) {
+        this.cooldown = cooldown;
+    }
+    public void cantAttack() {
+        canAttack=false;
+    }
+
     public void doAttack(){
 
         if(attacker.getTargetPos()!=null&&canAttack) {

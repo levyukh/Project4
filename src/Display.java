@@ -28,8 +28,7 @@ public class Display extends JPanel implements KeyListener, MouseListener {
     Thread gameLoop=new Thread(new GameLoop(player,this));
 
     public Display(int width, int height, String title){
-        new DamagableZone(room,40,40,100,300,"Sprites/wall.png",2,0.5,null);
-        new DamagableZone(room,40,40,100,300,"Sprites/wall.png",2,0.5,null);
+        player.addToInventory(new Item(player));
         new LivingEntity(room,100,30,500,520,"Sprites/floor.png",3,200);
         new Enemy(room2,50,30,400,320,"Sprites/red.png",3,200,1);
         JFrame frame = new JFrame(title);
@@ -52,6 +51,7 @@ public class Display extends JPanel implements KeyListener, MouseListener {
         super.paintComponent(g);  // always put this
         Graphics2D g2d = (Graphics2D) g;
         player.getRoom().drawRoom(g2d);
+        player.drawInventory(g2d);
 
     }
 
@@ -87,6 +87,8 @@ public class Display extends JPanel implements KeyListener, MouseListener {
         if (e.getButton() == MouseEvent.BUTTON1) {
             player.setTargetPos(new Vector2(e.getX(), e.getY()));
             player.attack();
+        }else {
+            if(player.getInventory()[player.getSelected()]!=null) player.getInventory()[player.getSelected()].useItem();
         }
     }
 

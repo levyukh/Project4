@@ -1,4 +1,9 @@
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 
 public class Player extends Enemy{
@@ -13,17 +18,27 @@ public class Player extends Enemy{
     private int yDir=0;
     private int lastXDir=xDir;
     private int lastYDir=yDir;
-
+    private BufferedImage inventoryGui;
+    private BufferedImage selectedGui;
     private boolean dash=false;
-
+    private Item[] inventory=new Item[5];
+    private int selected=0;
 
     public Player(Room[][] rooms,int w, int h, int x, int y,String spitePath,int hp,int speed,int attackStat,int roomX, int roomY){
         super(rooms[roomY][roomX],w,h,x,y,spitePath,hp,speed,attackStat);
+        try {
+            inventoryGui = ImageIO.read(new File("Sprites/inventoryGui.png"));
+            selectedGui= ImageIO.read(new File("Sprites/selectedGui.png"));
+        } catch (IOException e) {
+            System.out.println("nope");
+        }
         setRoom(rooms[roomY][roomX]);
         getRoom().setPlayer(this);
         this.rooms=rooms;
         this.roomX=roomX;
         this.roomY=roomY;
+        setAttack(new MeleeAttack(this));
+
     }
     public void enterRoom(Room newRoom,String exit){
         getRoom().removePlayer(this);
@@ -34,6 +49,13 @@ public class Player extends Enemy{
         getRoom().addDrawable(this,getRoom().getAddDrawableQueueLength());
         getRoom().addCollidable(this);
         getRoom().addDamagable(this);
+    }
+
+    public void addToInventory(Item item) {
+        inventory[selected]=item;
+    }
+    public void removeFromInventory(int index){
+        inventory[index]=null;
     }
 
     public void keyPressed(int keyCode) {
@@ -47,6 +69,19 @@ public class Player extends Enemy{
             lastYDir=yDir;
         }
     }
+
+    public int getSelected() {
+        return selected;
+    }
+    public void drawInventory(Graphics2D graphic){
+        for(int i=0;i<inventory.length;i++){
+            if(i!=selected) {
+                graphic.drawImage(inventoryGui, 780, 121 * i, 85, 121, null);
+            }
+            else graphic.drawImage(selectedGui, 780, 121 * i, 85, 121, null);
+            if(inventory[i]!=null) graphic.drawImage(inventory[i].getSprite(),795,127*i+20,50,60,null);
+        }
+    }
     private void checkExitCollision(){
         if(getRoom().getExits().get("Bottom Exit")!=null&&willCollide(getRoom().getExits().get("Bottom Exit"))&&keysPressed.contains(69)) enterRoom(rooms[++roomY][roomX],"Top Exit");
         else if(getRoom().getExits().get("Top Exit")!=null&&willCollide(getRoom().getExits().get("Top Exit"))&&keysPressed.contains(69)) enterRoom(rooms[--roomY][roomX],"Bottom Exit");
@@ -54,8 +89,18 @@ public class Player extends Enemy{
         else if(getRoom().getExits().get("Left Exit")!=null&&willCollide(getRoom().getExits().get("Left Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][--roomX],"Right Exit");
         keysPressed.remove(69);
     }
+
+    public Item[] getInventory() {
+        return inventory;
+    }
+
     @Override
     protected  void movementLogic(){
+        if(keysPressed.contains(49)) selected=0;
+        else if(keysPressed.contains(50)) selected=1;
+        else if(keysPressed.contains(51)) selected=2;
+        else if(keysPressed.contains(52)) selected=3;
+        else if(keysPressed.contains(53)) selected=4;
        if(!dash) {
            getSpeed().setVector(getSpeedStat()*xDir,getSpeedStat()*yDir);
             xDir = (keysPressed.contains(37) ? -1 : 0) + (keysPressed.contains(39) ? 1 : 0);
@@ -78,6 +123,7 @@ public class Player extends Enemy{
             dashCooldown = 2;
         }
        }
+
 
     }
 

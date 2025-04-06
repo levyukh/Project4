@@ -48,6 +48,7 @@ public class Entity {
 
 
     }
+
     public Vector2 getNextPos(){
         return getPosition().addVector(getSpeed().multiply(deltaTime));
     }
