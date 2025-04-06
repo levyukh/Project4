@@ -82,12 +82,15 @@ public class Player extends Enemy{
             if(inventory[i]!=null) graphic.drawImage(inventory[i].getSprite(),795,127*i+20,50,60,null);
         }
     }
-    private void checkExitCollision(){
+    private void checkPlayerUniqueCollision(){
         if(getRoom().getExits().get("Bottom Exit")!=null&&willCollide(getRoom().getExits().get("Bottom Exit"))&&keysPressed.contains(69)) enterRoom(rooms[++roomY][roomX],"Top Exit");
         else if(getRoom().getExits().get("Top Exit")!=null&&willCollide(getRoom().getExits().get("Top Exit"))&&keysPressed.contains(69)) enterRoom(rooms[--roomY][roomX],"Bottom Exit");
         else if(getRoom().getExits().get("Right Exit")!=null&&willCollide(getRoom().getExits().get("Right Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][++roomX],"Left Exit");
         else if(getRoom().getExits().get("Left Exit")!=null&&willCollide(getRoom().getExits().get("Left Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][--roomX],"Right Exit");
         keysPressed.remove(69);
+        for(OverworldItem item: getRoom().getItems()){
+            if(willCollide(item)&&keysPressed.contains(16)) item.getStoredItem().addItem(this);
+        }
     }
 
     public Item[] getInventory() {
@@ -132,7 +135,7 @@ public class Player extends Enemy{
     @Override
     public void move() {
 
-        checkExitCollision();
+        checkPlayerUniqueCollision();
 
         super.move();
 

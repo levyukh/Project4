@@ -13,6 +13,7 @@ public class Room {
     private ArrayList<Entity> drawableEntities=new ArrayList<>();
     private HashSet<Entity> collidableEntities=new HashSet<>();
     private HashSet<LivingEntity> damagableEntities=new HashSet<>();
+    private HashSet<OverworldItem> items=new HashSet<>();
     private HashMap<String,Exit> exits=new HashMap<>();
     private Player player=null;
     private HashSet<Entity> removeDrawableQueue=new HashSet<>();
@@ -40,6 +41,10 @@ public class Room {
 
     public HashMap<String, Exit> getExits() {
         return exits;
+    }
+
+    public HashSet<OverworldItem> getItems() {
+        return items;
     }
 
     public void setPlayer(Player player) {

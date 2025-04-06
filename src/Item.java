@@ -7,10 +7,7 @@ public class Item {
     private Player player;
     int placeInInventory;
     private BufferedImage sprite;
-    public Item(Player player){
-        this.player=player;
-        player.addToInventory(this);
-        placeInInventory= player.getSelected();
+    public Item(){
         loadImage();
     }
     protected void loadImage(){
@@ -19,6 +16,11 @@ public class Item {
         } catch (IOException e) {
             System.out.println("nope");
         }
+    }
+    public void addItem(Player player){
+        this.player=player;
+        player.addToInventory(this);
+        placeInInventory= player.getSelected();
     }
     public void useItem(){
         player.heal(3);

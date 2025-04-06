@@ -28,7 +28,8 @@ public class Display extends JPanel implements KeyListener, MouseListener {
     Thread gameLoop=new Thread(new GameLoop(player,this));
 
     public Display(int width, int height, String title){
-        player.addToInventory(new Item(player));
+        new OverworldItem(room,50,50,400,520,new Item());
+        new OverworldItem(room,50,50,480,520,new Item());
         new LivingEntity(room,100,30,500,520,"Sprites/floor.png",3,200);
         new Enemy(room2,50,30,400,320,"Sprites/red.png",3,200,1);
         JFrame frame = new JFrame(title);
