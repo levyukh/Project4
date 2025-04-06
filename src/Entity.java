@@ -11,7 +11,7 @@ public class Entity {
     private final int width;
     private BufferedImage sprite;
     private Vector2 speed=new Vector2(0,0);
-
+    private Room room;
     protected static double deltaTime;
     public Entity(Room room,int width, int height, int x, int y, String spitePath,boolean addToCollidables){
         position=new Vector2(x,y);
@@ -24,8 +24,21 @@ public class Entity {
         }
         room.addDrawable(this);
         if(addToCollidables)room.addCollidable(this);
+        this.room=room;
     }
-    public Entity(Room room,int width, int height, int x, int y, BufferedImage image,boolean addToCollidables){
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+    public void despawn(){
+        room.removeDrawable(this);
+        room.getCollidableEntities().remove(this);
+    }
+    public Entity(Room room, int width, int height, int x, int y, BufferedImage image, boolean addToCollidables){
         position=new Vector2(x,y);
         this.width=width;
         this.height=height;
@@ -52,6 +65,10 @@ public class Entity {
 
     public void setSpeed(Vector2 speed) {
         this.speed = speed;
+    }
+    public void setSpeed(int x, int y) {
+        speed.setX(x);
+        speed.setY(y);
     }
 
     public int getHeight() {
@@ -80,7 +97,7 @@ public class Entity {
         position.setY(y);
     }
     public void move(){
-        if(Math.abs(speed.getY())==Math.abs(speed.getX())) speed.normalize();
+
         position=position.addVector(speed.multiply(deltaTime));
     }
     public void draw(Graphics2D graphic){

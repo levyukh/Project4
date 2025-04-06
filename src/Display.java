@@ -1,15 +1,15 @@
-import org.w3c.dom.ls.LSOutput;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 
-public class Display extends JPanel implements KeyListener {
+public class Display extends JPanel implements KeyListener, MouseListener {
 
 
-    Room room = new Room("Sprites/floor.png", 25, 20, false, true, false, true);
+    Room room=new Room("Sprites/floor.png",25,20,false,true,false,true);
     Room room2=new Room("Sprites/floor.png",25,20,true,true,true,true);
     CollidableEntity gf=new CollidableEntity(room2,130,120,300,120,"Sprites/wall.png");
     Room room3=new Room("Sprites/floor.png",25,20,true,true,true,true);
@@ -19,22 +19,26 @@ public class Display extends JPanel implements KeyListener {
     CollidableEntity ff=new CollidableEntity(room3,130,120,700,190,"Sprites/image.png");
     Room room4=new Room("Sprites/floor.png",25,20,true,true,true,true);
 
+
+
     Room[][] x=
-    {{room, room2},
-    {room3, room4}};
-    Player player=new Player(x,100,100,70,70,"Sprites/image.png",3,500,0,0);
+            {{room, room2},
+                    {room3, room4}};
+    Player player=new Player(x,100,100,70,70,"Sprites/image.png",3,500,2,0,0);
     Thread gameLoop=new Thread(new GameLoop(player,this));
 
     public Display(int width, int height, String title){
-
-        RoomTypes.roomType1(room);
+        new DamagableZone(room,40,40,100,300,"Sprites/wall.png",2,0.5,null);
+        new DamagableZone(room,40,40,100,300,"Sprites/wall.png",2,0.5,null);
+        new LivingEntity(room,100,30,500,520,"Sprites/floor.png",3,200);
+        new Enemy(room2,50,30,400,320,"Sprites/red.png",3,200,1);
         JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
         frame.add(this);
         frame.setVisible(true);
-
+        addMouseListener(this);
         addKeyListener(this);
         setFocusable(true);
         requestFocusInWindow();
@@ -68,5 +72,31 @@ public class Display extends JPanel implements KeyListener {
     }
 
 
+    @Override
+    public void mouseClicked(MouseEvent e) {
 
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            player.setTargetPos(new Vector2(e.getX(), e.getY()));
+            player.attack();
+        }
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
 }

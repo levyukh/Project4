@@ -28,6 +28,16 @@ public class LivingEntity extends CollidableEntity{
     public int getSpeedStat() {
         return speed;
     }
+    public void hit(int damage){
+        damage(damage);
+        System.out.println("got hit");
+        if(hp<=0) despawn();
+    }
+    @Override
+    public void despawn() {
+        super.despawn();
+        getRoom().getDamagableEntities().remove(this);
+    }
 
     @Override
     public void move() {

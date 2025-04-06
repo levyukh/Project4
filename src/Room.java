@@ -10,12 +10,13 @@ import java.util.HashSet;
 
 public class Room {
     private BufferedImage floor;
-    private ArrayList<Entity> drawableEntities=new ArrayList<Entity>();
-    private HashSet<Entity> collidableEntities=new HashSet<Entity>();
-    private HashSet<LivingEntity> damagableEntities=new HashSet<LivingEntity>();
-    private HashMap<String,Exit> exits=new HashMap<String,Exit>();
+    private ArrayList<Entity> drawableEntities=new ArrayList<>();
+    private HashSet<Entity> collidableEntities=new HashSet<>();
+    private HashSet<LivingEntity> damagableEntities=new HashSet<>();
+    private HashMap<String,Exit> exits=new HashMap<>();
     private Player player=null;
-
+    private HashSet<Entity> removeDrawableQueue=new HashSet<>();
+    private ArrayList<Entity> addDrawableQueue=new ArrayList<>();
     public Room(String files,int width, int height,boolean hasTopExit,boolean hasBottomExit,boolean hasLeftExit,boolean hasRightExit){
         BufferedImage wall=null;
 
@@ -49,7 +50,18 @@ public class Room {
         return player;
     }
 
+    public int getAddDrawableQueueLength() {
+        return addDrawableQueue.size();
+    }
 
+    private void updateQueue(){
+        synchronized (drawableEntities) {
+            if(!removeDrawableQueue.isEmpty()) drawableEntities.removeAll(removeDrawableQueue);
+            if(!addDrawableQueue.isEmpty()) drawableEntities.addAll(addDrawableQueue);
+        }
+        removeDrawableQueue.clear();
+        addDrawableQueue.clear();
+    }
     public HashSet<LivingEntity> getDamagableEntities() {
         return damagableEntities;
     }
@@ -58,10 +70,12 @@ public class Room {
         return collidableEntities;
     }
     public void roomPhysics(){
-        for (Entity entity:drawableEntities){
-            entity.move();
+        updateQueue();
+        synchronized (drawableEntities) {
+            for (Entity entity : drawableEntities) {
+                entity.move();
+            }
         }
-
     }
     public void removePlayer(Player player){
         player=null;
@@ -70,15 +84,25 @@ public class Room {
     }
     public void drawRoom(Graphics2D screen){
         screen.drawImage(floor,0,0,null);
-        for(Entity entity:drawableEntities) entity.draw(screen);
+        synchronized (drawableEntities) {
+            for (Entity entity : drawableEntities) entity.draw(screen);
+        }
 
     }
     public void addDrawable(Entity entity){
         if(!drawableEntities.contains(entity)) {
-            drawableEntities.add(entity);
+            addDrawableQueue.add(entity);
+        }
+    }
+    public void addDrawable(Entity entity,int index){
+        if(!drawableEntities.contains(entity)) {
+            addDrawableQueue.add(index,entity);
         }
     }
 
+    public void removeDrawable(Entity entity){
+      removeDrawableQueue.add(entity);
+    }
     public void addCollidable(Entity entity){
         collidableEntities.add(entity);
     }

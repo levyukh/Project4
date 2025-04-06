@@ -1,12 +1,12 @@
 
 import java.util.HashSet;
 
-public class Player extends LivingEntity{
+public class Player extends Enemy{
     private HashSet<Integer> keysPressed=new HashSet<Integer>();
     private Room[][] rooms;
-    private double dashTime=2;
+    private double dashTime=0.1;
     private double dashCooldown=0;
-    private int dashSpeed=4000;
+    private int dashSpeed=2000;
     private int roomX;
     private int roomY;
     private int xDir=0;
@@ -15,24 +15,25 @@ public class Player extends LivingEntity{
     private int lastYDir=yDir;
 
     private boolean dash=false;
-    private Room room;
 
-    public Player(Room[][] rooms,int w, int h, int x, int y,String spitePath,int hp,int speed,int roomX, int roomY){
-        super(rooms[roomY][roomX],w,h,x,y,spitePath,hp,speed);
-        this.room=rooms[roomY][roomX];
-        room.setPlayer(this);
+
+    public Player(Room[][] rooms,int w, int h, int x, int y,String spitePath,int hp,int speed,int attackStat,int roomX, int roomY){
+        super(rooms[roomY][roomX],w,h,x,y,spitePath,hp,speed,attackStat);
+        setRoom(rooms[roomY][roomX]);
+        getRoom().setPlayer(this);
         this.rooms=rooms;
         this.roomX=roomX;
         this.roomY=roomY;
     }
     public void enterRoom(Room newRoom,String exit){
-        room.removePlayer(this);
-        room=newRoom;
-        room.setPlayer(this);
-        setCollidable(room.getCollidableEntities());
-        setPosition(room.getExits().get(exit).getPosition());
-        room.addDrawable(this);
-        room.addCollidable(this);
+        getRoom().removePlayer(this);
+        setRoom(newRoom);
+        getRoom().setPlayer(this);
+        setCollidable(getRoom().getCollidableEntities());
+        setPosition(getRoom().getExits().get(exit).getPosition());
+        getRoom().addDrawable(this,getRoom().getAddDrawableQueueLength());
+        getRoom().addCollidable(this);
+        getRoom().addDamagable(this);
     }
 
     public void keyPressed(int keyCode) {
@@ -47,10 +48,10 @@ public class Player extends LivingEntity{
         }
     }
     private void checkExitCollision(){
-        if(room.getExits().get("Bottom Exit")!=null&&willCollide(room.getExits().get("Bottom Exit"))&&keysPressed.contains(69)) enterRoom(rooms[++roomY][roomX],"Top Exit");
-        else if(room.getExits().get("Top Exit")!=null&&willCollide(room.getExits().get("Top Exit"))&&keysPressed.contains(69)) enterRoom(rooms[--roomY][roomX],"Bottom Exit");
-        else if(room.getExits().get("Right Exit")!=null&&willCollide(room.getExits().get("Right Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][++roomX],"Left Exit");
-        else if(room.getExits().get("Left Exit")!=null&&willCollide(room.getExits().get("Left Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][--roomX],"Right Exit");
+        if(getRoom().getExits().get("Bottom Exit")!=null&&willCollide(getRoom().getExits().get("Bottom Exit"))&&keysPressed.contains(69)) enterRoom(rooms[++roomY][roomX],"Top Exit");
+        else if(getRoom().getExits().get("Top Exit")!=null&&willCollide(getRoom().getExits().get("Top Exit"))&&keysPressed.contains(69)) enterRoom(rooms[--roomY][roomX],"Bottom Exit");
+        else if(getRoom().getExits().get("Right Exit")!=null&&willCollide(getRoom().getExits().get("Right Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][++roomX],"Left Exit");
+        else if(getRoom().getExits().get("Left Exit")!=null&&willCollide(getRoom().getExits().get("Left Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][--roomX],"Right Exit");
         keysPressed.remove(69);
     }
     @Override
@@ -63,6 +64,7 @@ public class Player extends LivingEntity{
            if (dashCooldown > 0) dashCooldown -= deltaTime;
            else if (keysPressed.contains(32)) {
                dash = true;
+               attack();
                getSpeed().setVector(dashSpeed*lastXDir,dashSpeed*lastYDir);
            }
 
@@ -91,7 +93,5 @@ public class Player extends LivingEntity{
 
     }
 
-    public Room getRoom(){
-        return room;
-    }
+
 }
