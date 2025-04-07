@@ -8,6 +8,7 @@ public class GameLoop extends JPanel implements Runnable{
 
     public GameLoop(Player player,JPanel panel){
         this.player=player;
+        player.setGameLoop(this);
         this.panel=panel;
     }
     @Override

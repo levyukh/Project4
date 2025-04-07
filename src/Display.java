@@ -16,9 +16,7 @@ public class Display extends JPanel implements KeyListener, MouseListener {
 
     Player player;
     Thread gameLoop;
-
-    public Display(int width, int height, String title){
-
+    public void start(){
         boolean[][][] maze = MazeGenerator.maze(rooms.length, rooms[0].length);
 
 
@@ -29,8 +27,12 @@ public class Display extends JPanel implements KeyListener, MouseListener {
             }
 
         }
-         player=new Player(rooms,100,100,70,70,"Sprites/image.png",3,500,2,0,0);
+        player=new Player(rooms,100,100,70,70,"Sprites/image.png",3,500,2,0,0);
         gameLoop=new Thread(new GameLoop(player,this));
+    }
+    public Display(int width, int height, String title){
+
+        start();
         JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
@@ -42,6 +44,7 @@ public class Display extends JPanel implements KeyListener, MouseListener {
         setFocusable(true);
         requestFocusInWindow();
         gameLoop.start();
+
 
     }
 

@@ -25,9 +25,11 @@ public class Player extends Enemy{
     private Item[] inventory=new Item[5];
     private int selected=0;
     private Attack[] attacks={new MeleeAttack(this),null,null,null};
+    private GameLoop gameLoop;
 
     public Player(Room[][] rooms,int w, int h, int x, int y,String spitePath,int hp,int speed,int attackStat,int roomX, int roomY){
         super(rooms[roomY][roomX],w,h,x,y,spitePath,hp,speed,attackStat);
+
         try {
             inventoryGui = ImageIO.read(new File("Sprites/inventoryGui.png"));
             selectedGui= ImageIO.read(new File("Sprites/selectedGui.png"));
@@ -42,7 +44,12 @@ public class Player extends Enemy{
         setAttack(attacks[0]);
 
     }
-    public void enterRoom(Room newRoom,String exit){
+
+    public void setGameLoop(GameLoop gameLoop) {
+        this.gameLoop = gameLoop;
+    }
+
+    public void enterRoom(Room newRoom, String exit){
         getRoom().removePlayer(this);
         setRoom(newRoom);
         getRoom().setPlayer(this);
@@ -66,7 +73,7 @@ public class Player extends Enemy{
     }
     public void keyReleased(int keyCode){
         keysPressed.remove(keyCode);
-        if(keyCode>36&&keyCode<41){
+        if(keyCode==65||keyCode==68||keyCode==83||keyCode==87){
             lastXDir=xDir;
             lastYDir=yDir;
         }
@@ -128,6 +135,7 @@ public class Player extends Enemy{
     @Override
     protected void die() {
         super.die();
+       gameLoop.stopRunning();
 
     }
 
@@ -153,6 +161,7 @@ public class Player extends Enemy{
 
            if (dashCooldown > 0) dashCooldown -= deltaTime;
            else if (keysPressed.contains(32)) {
+
                dash = true;
                getSpeed().setVector(dashSpeed*lastXDir,dashSpeed*lastYDir);
            }
@@ -163,7 +172,7 @@ public class Player extends Enemy{
         } else {
             getSpeed().setVector(0, 0);
             dash = false;
-            dashTime = 0.2;
+            dashTime = 0.1;
             dashCooldown = 2;
         }
        }
