@@ -9,15 +9,15 @@ import java.awt.event.MouseListener;
 public class Display extends JPanel implements KeyListener, MouseListener {
 
 
-    Room room=new Room("Sprites/floor.png",25,20,false,true,false,true);
-    Room room2=new Room("Sprites/floor.png",25,20,true,true,true,true);
+    Room room=new Room("Sprites/floor.png",40,32,false,true,false,true);
+    Room room2=new Room("Sprites/floor.png",40,32,true,true,true,true);
     CollidableEntity gf=new CollidableEntity(room2,130,120,300,120,"Sprites/wall.png");
-    Room room3=new Room("Sprites/floor.png",25,20,true,true,true,true);
+    Room room3=new Room("Sprites/floor.png",40,32,true,true,true,true);
     CollidableEntity gff=new CollidableEntity(room3,130,120,300,120,"Sprites/image.png");
     CollidableEntity f=new CollidableEntity(room3,130,120,400,180,"Sprites/image.png");
     CollidableEntity gfff=new CollidableEntity(room3,130,20,500,220,"Sprites/image.png");
     CollidableEntity ff=new CollidableEntity(room3,130,120,700,190,"Sprites/image.png");
-    Room room4=new Room("Sprites/floor.png",25,20,true,true,true,true);
+    Room room4=new Room("Sprites/floor.png",40,32,true,true,true,true);
 
 
 
