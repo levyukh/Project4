@@ -77,10 +77,10 @@ public class Player extends Enemy{
     public void drawInventory(Graphics2D graphic){
         for(int i=0;i<inventory.length;i++){
             if(i!=selected) {
-                graphic.drawImage(inventoryGui, 780, 121 * i, 85, 121, null);
+                graphic.drawImage(inventoryGui, 1280, 205 * i, 128, 205, null);
             }
-            else graphic.drawImage(selectedGui, 780, 121 * i, 85, 121, null);
-            if(inventory[i]!=null) graphic.drawImage(inventory[i].getSprite(),795,127*i+20,50,60,null);
+            else graphic.drawImage(selectedGui, 1280, 205 * i, 128, 205, null);
+            if(inventory[i]!=null) graphic.drawImage(inventory[i].getSprite(),1312,205*i+64,64,77,null);
         }
     }
     private void checkPlayerUniqueCollision(){

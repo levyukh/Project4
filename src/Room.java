@@ -31,10 +31,10 @@ public class Room {
         }
 
         floor = TileMap.tileMapMaker(floor,width,height);
-        new Entity(this,800,50,0,0,TileMap.tileMapMaker(wall,(int)(800/wall.getWidth()+1), 1),true);
-        new Entity(this,800,50,0,640-2*wall.getHeight(),TileMap.tileMapMaker(wall,(int)(800/wall.getWidth()), 1),true);
-        new Entity(this,50,640,0,0,TileMap.tileMapMaker(wall,1, (int)(640/wall.getHeight()+1)),true);
-        new Entity(this,50,640,800-2*wall.getWidth(),0,TileMap.tileMapMaker(wall,1, (int)(640/wall.getHeight())),true);
+        new Entity(this,1280,64,0,0,TileMap.tileMapMaker(wall,(int)(640/wall.getWidth()), 1),true);
+        new Entity(this,1280,64,0,1024-2*wall.getHeight(),TileMap.tileMapMaker(wall,(int)(640/wall.getWidth()), 1),true);
+        new Entity(this,64,1024,0,0,TileMap.tileMapMaker(wall,1, (int)(512/wall.getHeight())),true);
+        new Entity(this,64,1024,1280-2*wall.getWidth(),0,TileMap.tileMapMaker(wall,1, (int)(512/wall.getHeight())),true);
         if(hasBottomExit)new Exit(this,"Bottom Exit");
         if(hasLeftExit)new Exit(this,"Left Exit");
         if(hasRightExit)new Exit(this,"Right Exit");

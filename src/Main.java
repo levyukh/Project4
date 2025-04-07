@@ -1,8 +1,8 @@
 
 public class Main {
     public static void main(String[] args)  {
-        MazeGenerator.maze(10,10);
-        Display x=new Display(880, 640, "hi");
+
+        Display x=new Display(1424, 1063, "Mr. Miller in the Basement of Brooklyn Tech");
 
     }
 }
