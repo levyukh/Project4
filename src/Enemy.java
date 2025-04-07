@@ -65,15 +65,29 @@ public class Enemy extends LivingEntity{
         }
     }
 
+    @Override
+    protected void die() {
+        super.die();
+        if(Math.random()<0.9){
+            new OverworldEssence(this,"Sprites/EssenceAnimation/essence0.png");
+        }
+    }
+
     public int getDir() {
         return dir;
     }
-
+    public void raiseAttack(int raise){
+        attackStat+=raise;
+    }
     @Override
     public void move() {
         attack.updateCooldown();
         super.move();
         dir();
+    }
+
+    public Attack getAttack() {
+        return attack;
     }
 
     public void attack(){

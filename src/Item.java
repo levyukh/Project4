@@ -19,12 +19,19 @@ public class Item {
     }
     public void addItem(Player player){
         this.player=player;
-        player.addToInventory(this);
         placeInInventory= player.getSelected();
+        player.addToInventory(this);
+
     }
+
+    public int getPlaceInInventory() {
+        return placeInInventory;
+    }
+
     public void useItem(){
         player.heal(3);
         player.removeFromInventory(placeInInventory);
+        System.out.println(placeInInventory);
         System.out.println("healed");
     }
 

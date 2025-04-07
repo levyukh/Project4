@@ -14,6 +14,10 @@ public class Attack {
 
     }
 
+    public void setAttacker(Enemy attacker) {
+        this.attacker = attacker;
+    }
+
     public boolean canAttack() {
         return canAttack;
     }

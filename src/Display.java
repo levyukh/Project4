@@ -89,7 +89,10 @@ public class Display extends JPanel implements KeyListener, MouseListener {
             player.setTargetPos(new Vector2(e.getX(), e.getY()));
             player.attack();
         }else {
-            if(player.getInventory()[player.getSelected()]!=null) player.getInventory()[player.getSelected()].useItem();
+
+            if (player.getInventory()[player.getSelected()] != null)
+                player.getInventory()[player.getSelected()].useItem();
+
         }
     }
 

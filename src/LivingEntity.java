@@ -24,14 +24,19 @@ public class LivingEntity extends CollidableEntity{
     public int getHp() {
         return hp;
     }
-
+    protected void die(){
+        despawn();
+    }
+    public void raiseSpeedStat(int raise){
+        speed+=raise;
+    }
     public int getSpeedStat() {
         return speed;
     }
     public void hit(int damage){
         damage(damage);
         System.out.println("got hit");
-        if(hp<=0) despawn();
+        if(hp<=0) die();
     }
     @Override
     public void despawn() {

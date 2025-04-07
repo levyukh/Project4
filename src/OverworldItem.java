@@ -10,7 +10,7 @@ public class OverworldItem extends Entity{
     @Override
     public void despawn() {
         super.despawn();
-        getRoom().getItems().remove(this);
+        getRoom().removeItem(this);
     }
 
     public Item getStoredItem() {

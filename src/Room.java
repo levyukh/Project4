@@ -14,8 +14,10 @@ public class Room {
     private HashSet<Entity> collidableEntities=new HashSet<>();
     private HashSet<LivingEntity> damagableEntities=new HashSet<>();
     private HashSet<OverworldItem> items=new HashSet<>();
+    private HashSet<OverworldEssence> essences=new HashSet<>();
     private HashMap<String,Exit> exits=new HashMap<>();
     private Player player=null;
+    private HashSet<OverworldItem> removeItemsQueue=new HashSet<>();
     private HashSet<Entity> removeDrawableQueue=new HashSet<>();
     private ArrayList<Entity> addDrawableQueue=new ArrayList<>();
     public Room(String files,int width, int height,boolean hasTopExit,boolean hasBottomExit,boolean hasLeftExit,boolean hasRightExit){
@@ -47,6 +49,14 @@ public class Room {
         return items;
     }
 
+    public HashSet<OverworldEssence> getEssences() {
+        return essences;
+    }
+
+    public void removeEssence(OverworldEssence essence){
+        essences.remove(essence);
+    }
+
     public void setPlayer(Player player) {
         this.player = player;
     }
@@ -60,10 +70,14 @@ public class Room {
     }
 
     private void updateQueue(){
+
+                if (!removeItemsQueue.isEmpty()) items.remove(removeItemsQueue);
+
         synchronized (drawableEntities) {
             if(!removeDrawableQueue.isEmpty()) drawableEntities.removeAll(removeDrawableQueue);
             if(!addDrawableQueue.isEmpty()) drawableEntities.addAll(addDrawableQueue);
         }
+        removeItemsQueue.clear();
         removeDrawableQueue.clear();
         addDrawableQueue.clear();
     }
@@ -93,6 +107,9 @@ public class Room {
             for (Entity entity : drawableEntities) entity.draw(screen);
         }
 
+    }
+    public void removeItem(OverworldItem item){
+        removeItemsQueue.add(item);
     }
     public void addDrawable(Entity entity){
         if(!drawableEntities.contains(entity)) {

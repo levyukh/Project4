@@ -23,6 +23,7 @@ public class Player extends Enemy{
     private boolean dash=false;
     private Item[] inventory=new Item[5];
     private int selected=0;
+    private Attack[] attacks={new MeleeAttack(this),null,null,null};
 
     public Player(Room[][] rooms,int w, int h, int x, int y,String spitePath,int hp,int speed,int attackStat,int roomX, int roomY){
         super(rooms[roomY][roomX],w,h,x,y,spitePath,hp,speed,attackStat);
@@ -37,7 +38,7 @@ public class Player extends Enemy{
         this.rooms=rooms;
         this.roomX=roomX;
         this.roomY=roomY;
-        setAttack(new MeleeAttack(this));
+        setAttack(attacks[0]);
 
     }
     public void enterRoom(Room newRoom,String exit){
@@ -52,7 +53,7 @@ public class Player extends Enemy{
     }
 
     public void addToInventory(Item item) {
-        inventory[selected]=item;
+        inventory[item.getPlaceInInventory()]=item;
     }
     public void removeFromInventory(int index){
         inventory[index]=null;
@@ -88,11 +89,32 @@ public class Player extends Enemy{
         else if(getRoom().getExits().get("Right Exit")!=null&&willCollide(getRoom().getExits().get("Right Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][++roomX],"Left Exit");
         else if(getRoom().getExits().get("Left Exit")!=null&&willCollide(getRoom().getExits().get("Left Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][--roomX],"Right Exit");
         keysPressed.remove(69);
-        for(OverworldItem item: getRoom().getItems()){
-            if(willCollide(item)&&keysPressed.contains(16)) item.getStoredItem().addItem(this);
+        if(keysPressed.contains(16)) {
+            for (OverworldItem item : getRoom().getItems()) {
+                if (willCollide(item)) item.getStoredItem().addItem(this);
+            }
+            for(OverworldEssence essence: getRoom().getEssences()){
+                if(willCollide(essence)) {
+                    addEssence(essence.getEssence());
+                    essence.despawn();
+                }
+            }
         }
     }
+    public void addEssence(Essence essence){
+        System.out.println("essence added" );
+        raiseAttack(essence.getAttackRaise());
+        heal(essence.getHpRaise());
+        raiseSpeedStat(essence.getSpeedRaise());
+        for(int i=0;i<attacks.length;i++){
+            if(attacks[i]==null) {
+                attacks[i] = essence.getAttack();
+                attacks[i].setAttacker(this);
+                break;
+            }
+        }
 
+    }
     public Item[] getInventory() {
         return inventory;
     }
@@ -104,6 +126,10 @@ public class Player extends Enemy{
         else if(keysPressed.contains(51)) selected=2;
         else if(keysPressed.contains(52)) selected=3;
         else if(keysPressed.contains(53)) selected=4;
+        if(keysPressed.contains(81)&&attacks[0]!=null) setAttack(attacks[0]);
+        else if(keysPressed.contains(82)&&attacks[1]!=null) setAttack(attacks[1]);
+        else if(keysPressed.contains(88)&&attacks[2]!=null) setAttack(attacks[2]);
+        else if(keysPressed.contains(70)&&attacks[3]!=null) setAttack(attacks[3]);
        if(!dash) {
            getSpeed().setVector(getSpeedStat()*xDir,getSpeedStat()*yDir);
             xDir = (keysPressed.contains(37) ? -1 : 0) + (keysPressed.contains(39) ? 1 : 0);
