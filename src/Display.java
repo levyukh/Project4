@@ -45,6 +45,7 @@ public class Display extends JPanel implements KeyListener, MouseListener {
         addMouseListener(this);
         addKeyListener(this);
         setFocusable(true);
+        frame.setResizable(false);
         try {
             Image icon = ImageIO.read(new File("Sprites/icon.png"));
             frame.setIconImage(icon);

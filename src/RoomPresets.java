@@ -82,7 +82,7 @@ public class RoomPresets {
 
     // Preset 9: Boss Room
     private static void bossRoom(Room room) {
-        new Enemy(room, 100, 100, 400, 320, "Sprites/boss.png", 10, 100, 3);
+        new Enemy(room, 100, 100, 400, 320, "Sprites/patrol.png", 10, 100, 3);
     }
 
     // Preset 10: Treasure Room
