@@ -20,7 +20,7 @@ public class Room {
     private HashSet<OverworldItem> removeItemsQueue=new HashSet<>();
     private HashSet<Entity> removeDrawableQueue=new HashSet<>();
     private ArrayList<Entity> addDrawableQueue=new ArrayList<>();
-    public Room(String files,int width, int height,boolean hasTopExit,boolean hasBottomExit,boolean hasLeftExit,boolean hasRightExit){
+    public Room(String files,int width, int height,boolean hasTopExit,boolean hasRightExit,boolean hasBottomExit,boolean hasLeftExit){
         BufferedImage wall=null;
 
         try {

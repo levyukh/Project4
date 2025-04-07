@@ -4,6 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Arrays;
 
 
 public class Display extends JPanel implements KeyListener, MouseListener {
@@ -13,14 +14,19 @@ public class Display extends JPanel implements KeyListener, MouseListener {
 
 
 
-    Player player=new Player(rooms,100,100,70,70,"Sprites/image.png",3,500,2,0,0);
-    Thread gameLoop=new Thread(new GameLoop(player,this));
+    Player player;
+    Thread gameLoop;
 
     public Display(int width, int height, String title){
+
         boolean[][][] maze = MazeGenerator.maze(rooms.length, rooms[0].length);
-        for (Room[] hallway:rooms) {
-            //for(Room room:hallway) room=new Room()
+
+
+        for (int i=0;i<rooms.length;i++) {
+            for(int j=0;j<rooms[0].length;j++) rooms[i][j]=new Room("Sprites/floor.png",40,32,maze[i][j][0],maze[i][j][1],maze[i][j][2],maze[i][j][3]);
         }
+         player=new Player(rooms,100,100,70,70,"Sprites/image.png",3,500,2,0,0);
+        gameLoop=new Thread(new GameLoop(player,this));
         JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);

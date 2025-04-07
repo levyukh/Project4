@@ -84,10 +84,10 @@ public class Player extends Enemy{
         }
     }
     private void checkPlayerUniqueCollision(){
-        if(getRoom().getExits().get("Bottom Exit")!=null&&willCollide(getRoom().getExits().get("Bottom Exit"))&&keysPressed.contains(69)) enterRoom(rooms[++roomY][roomX],"Top Exit");
-        else if(getRoom().getExits().get("Top Exit")!=null&&willCollide(getRoom().getExits().get("Top Exit"))&&keysPressed.contains(69)) enterRoom(rooms[--roomY][roomX],"Bottom Exit");
-        else if(getRoom().getExits().get("Right Exit")!=null&&willCollide(getRoom().getExits().get("Right Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][++roomX],"Left Exit");
-        else if(getRoom().getExits().get("Left Exit")!=null&&willCollide(getRoom().getExits().get("Left Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomY][--roomX],"Right Exit");
+        if(getRoom().getExits().get("Bottom Exit")!=null&&willCollide(getRoom().getExits().get("Bottom Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomX][++roomY],"Top Exit");
+        else if(getRoom().getExits().get("Top Exit")!=null&&willCollide(getRoom().getExits().get("Top Exit"))&&keysPressed.contains(69)) enterRoom(rooms[roomX][--roomY],"Bottom Exit");
+        else if(getRoom().getExits().get("Right Exit")!=null&&willCollide(getRoom().getExits().get("Right Exit"))&&keysPressed.contains(69)) enterRoom(rooms[++roomX][roomY],"Left Exit");
+        else if(getRoom().getExits().get("Left Exit")!=null&&willCollide(getRoom().getExits().get("Left Exit"))&&keysPressed.contains(69)) enterRoom(rooms[--roomX][roomY],"Right Exit");
         keysPressed.remove(69);
         if(keysPressed.contains(16)) {
             for (OverworldItem item : getRoom().getItems()) {
@@ -138,7 +138,6 @@ public class Player extends Enemy{
            if (dashCooldown > 0) dashCooldown -= deltaTime;
            else if (keysPressed.contains(32)) {
                dash = true;
-               attack();
                getSpeed().setVector(dashSpeed*lastXDir,dashSpeed*lastYDir);
            }
 
