@@ -8,6 +8,7 @@ import java.util.HashSet;
 
 public class Player extends Enemy{
     private HashSet<Integer> keysPressed=new HashSet<Integer>();
+    private boolean canAddEssences=true;
     private Room[][] rooms;
     private double dashTime=0.1;
     private double dashCooldown=0;
@@ -102,19 +103,34 @@ public class Player extends Enemy{
         }
     }
     public void addEssence(Essence essence){
-        System.out.println("essence added" );
-        raiseAttack(essence.getAttackRaise());
-        heal(essence.getHpRaise());
-        raiseSpeedStat(essence.getSpeedRaise());
-        for(int i=0;i<attacks.length;i++){
-            if(attacks[i]==null) {
-                attacks[i] = essence.getAttack();
-                attacks[i].setAttacker(this);
-                break;
+        if(canAddEssences) {
+            System.out.println("essence added");
+            raiseAttack(essence.getAttackRaise());
+            heal(essence.getHpRaise());
+            raiseSpeedStat(essence.getSpeedRaise());
+            for (int i = 0; i < attacks.length; i++) {
+                if (attacks[i] == null) {
+                    attacks[i] = essence.getAttack();
+                    attacks[i].setAttacker(this);
+                    break;
+                }
             }
         }
+        canAddEssences=checkEssences();
+    }
+    private boolean checkEssences(){
+        for(Attack attack:attacks){
+            if(attack==null)return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void die() {
+        super.die();
 
     }
+
     public Item[] getInventory() {
         return inventory;
     }
@@ -132,8 +148,8 @@ public class Player extends Enemy{
         else if(keysPressed.contains(70)&&attacks[3]!=null) setAttack(attacks[3]);
        if(!dash) {
            getSpeed().setVector(getSpeedStat()*xDir,getSpeedStat()*yDir);
-            xDir = (keysPressed.contains(37) ? -1 : 0) + (keysPressed.contains(39) ? 1 : 0);
-            yDir = (keysPressed.contains(38) ? -1 : 0) + (keysPressed.contains(40) ? 1 : 0);
+            xDir = (keysPressed.contains(65) ? -1 : 0) + (keysPressed.contains(68) ? 1 : 0);
+            yDir = (keysPressed.contains(87) ? -1 : 0) + (keysPressed.contains(83) ? 1 : 0);
 
            if (dashCooldown > 0) dashCooldown -= deltaTime;
            else if (keysPressed.contains(32)) {

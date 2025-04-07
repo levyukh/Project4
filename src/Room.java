@@ -17,6 +17,8 @@ public class Room {
     private HashSet<OverworldEssence> essences=new HashSet<>();
     private HashMap<String,Exit> exits=new HashMap<>();
     private Player player=null;
+    private HashSet<OverworldEssence> addEssenceQueue=new HashSet<>();
+    private HashSet<OverworldEssence> removeEssenceQueue=new HashSet<>();
     private HashSet<OverworldItem> removeItemsQueue=new HashSet<>();
     private HashSet<Entity> removeDrawableQueue=new HashSet<>();
     private ArrayList<Entity> addDrawableQueue=new ArrayList<>();
@@ -54,7 +56,7 @@ public class Room {
     }
 
     public void removeEssence(OverworldEssence essence){
-        essences.remove(essence);
+       removeEssenceQueue.add(essence);
     }
 
     public void setPlayer(Player player) {
@@ -70,8 +72,9 @@ public class Room {
     }
 
     private void updateQueue(){
-
-                if (!removeItemsQueue.isEmpty()) items.remove(removeItemsQueue);
+                if(!addEssenceQueue.isEmpty()) essences.addAll(addEssenceQueue);
+                if(!removeEssenceQueue.isEmpty()) essences.removeAll(removeEssenceQueue);
+                if (!removeItemsQueue.isEmpty()) items.removeAll(removeItemsQueue);
 
         synchronized (drawableEntities) {
             if(!removeDrawableQueue.isEmpty()) drawableEntities.removeAll(removeDrawableQueue);
@@ -108,6 +111,7 @@ public class Room {
         }
 
     }
+
     public void removeItem(OverworldItem item){
         removeItemsQueue.add(item);
     }

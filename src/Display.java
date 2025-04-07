@@ -23,7 +23,11 @@ public class Display extends JPanel implements KeyListener, MouseListener {
 
 
         for (int i=0;i<rooms.length;i++) {
-            for(int j=0;j<rooms[0].length;j++) rooms[i][j]=new Room("Sprites/floor.png",40,32,maze[i][j][0],maze[i][j][1],maze[i][j][2],maze[i][j][3]);
+            for(int j=0;j<rooms[0].length;j++) {
+                rooms[i][j] = new Room("Sprites/floor.png", 40, 32, maze[i][j][0], maze[i][j][1], maze[i][j][2], maze[i][j][3]);
+                RoomPresets.randomPreset(rooms[i][j]);
+            }
+
         }
          player=new Player(rooms,100,100,70,70,"Sprites/image.png",3,500,2,0,0);
         gameLoop=new Thread(new GameLoop(player,this));
