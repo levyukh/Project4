@@ -1,9 +1,12 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 
@@ -42,6 +45,12 @@ public class Display extends JPanel implements KeyListener, MouseListener {
         addMouseListener(this);
         addKeyListener(this);
         setFocusable(true);
+        try {
+            Image icon = ImageIO.read(new File("Sprites/icon.png"));
+            frame.setIconImage(icon);
+        } catch (IOException e) {
+            System.out.println("Icon image not found!");
+        }
         requestFocusInWindow();
         gameLoop.start();
 
