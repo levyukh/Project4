@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 
+
 public class Display extends JPanel implements KeyListener, MouseListener, ActionListener {
 
 
@@ -36,6 +37,7 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
     }
     public Display(int width, int height, String title){
         start();
+        startButton = new JButton("Start Game");
         JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
@@ -58,10 +60,11 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
             System.out.println("Title screen image not found");
         }
         requestFocusInWindow();
+        startButton.addActionListener(this);
         gameLoop.start();
 
-        startButton = new JButton("Start Game");
-        startButton.addActionListener(this);
+
+
     }
 
 
@@ -80,7 +83,6 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
 
     public void drawTitleScreen(Graphics2D graphic) {
         graphic.drawImage(titleScreenImage, 0, 0, 1408, 1024, null);
-
         add(startButton);
         startButton.setLocation(512, 512);
         startButton.setSize(384, 96);
