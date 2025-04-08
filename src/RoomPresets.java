@@ -2,29 +2,35 @@ public class RoomPresets {
     public void RoomPresets() {
         // Constructor not needed for static utility class
     }
-
+    private static void randomEnemy(Room room,int width,int height,int x,int y,int hp,int speed,int attack){
+        double rand=Math.random();
+        if(rand<.25) new Enemy(room, width, height, x, y, hp, speed, attack);
+        else if(rand<.5) new FireEnemy(room, width, height, x, y, hp, speed, attack);
+        else if(rand<.75) new SquidEnemy(room, width, height, x, y, hp, speed, attack);
+        else  new LeafEnemy(room, width, height, x, y, hp, speed, attack);
+    }
     // Preset 1: Central Ambush - Enemies surround the center
     private static void centralAmbush(Room room) {
-        new Enemy(room, 50, 50, 300, 220, "Sprites/red.png", 3, 200, 1); // Top-left
-        new Enemy(room, 50, 50, 500, 220, "Sprites/red.png", 3, 200, 1); // Top-right
-        new Enemy(room, 50, 50, 300, 420, "Sprites/red.png", 3, 200, 1); // Bottom-left
-        new Enemy(room, 50, 50, 500, 420, "Sprites/red.png", 3, 200, 1); // Bottom-right
+        randomEnemy(room, 50, 50, 300, 220, 3, 200, 1); // Top-left
+        randomEnemy(room, 50, 50, 500, 220, 3, 200, 1); // Top-right
+        randomEnemy(room, 50, 50, 300, 420, 3, 200, 1); // Bottom-left
+        randomEnemy(room, 50, 50, 500, 420, 3, 200, 1); // Bottom-right
         new OverworldItem(room, 50, 50, 400, 320, new Item()); // Item in center
     }
 
     // Preset 2: Exit dudes
     private static void exitGuards(Room room) {
         if (room.getExits().containsKey("Top Exit")) {
-            new Enemy(room, 50, 50, 400, 100, "Sprites/red.png", 3, 200, 1);
+            randomEnemy(room, 50, 50, 400, 100, 3, 200, 1);
         }
         if (room.getExits().containsKey("Bottom Exit")) {
-            new Enemy(room, 50, 50, 400, 540, "Sprites/red.png", 3, 200, 1);
+            randomEnemy(room, 50, 50, 400, 540, 3, 200, 1);
         }
         if (room.getExits().containsKey("Left Exit")) {
-            new Enemy(room, 50, 50, 100, 320, "Sprites/red.png", 3, 200, 1);
+            randomEnemy(room, 50, 50, 100, 320,  3, 200, 1);
         }
         if (room.getExits().containsKey("Right Exit")) {
-            new Enemy(room, 50, 50, 700, 320, "Sprites/red.png", 3, 200, 1);
+            randomEnemy(room, 50, 50, 700, 320,  3, 200, 1);
         }
     }
 
@@ -34,31 +40,32 @@ public class RoomPresets {
         new LivingEntity(room, 100, 30, 300, 300, "Sprites/patrol.png", 3, 200);
         new LivingEntity(room, 100, 30, 500, 300, "Sprites/patrol.png", 3, 200);
         new LivingEntity(room, 100, 30, 700, 300, "Sprites/patrol.png", 3, 200);
+        randomEnemy(room, 50, 50, 350, 270,  3, 200, 1);
     }
 
     // Preset 4: It's a trap!
     private static void itemBait(Room room) {
         new OverworldItem(room, 50, 50, 400, 320, new Item());
-        new Enemy(room, 50, 50, 350, 270, "Sprites/red.png", 3, 200, 1);
-        new Enemy(room, 50, 50, 450, 270, "Sprites/red.png", 3, 200, 1);
-        new Enemy(room, 50, 50, 350, 370, "Sprites/red.png", 3, 200, 1);
-        new Enemy(room, 50, 50, 450, 370, "Sprites/red.png", 3, 200, 1);
+        randomEnemy(room, 50, 50, 350, 270,  3, 200, 1);
+        randomEnemy(room, 50, 50, 450, 270,  3, 200, 1);
+        randomEnemy(room, 50, 50, 350, 370,  3, 200, 1);
+        randomEnemy(room, 50, 50, 450, 370,  3, 200, 1);
     }
 
     // Preset 5: THIS IS SPARTA!
     private static void chokePoint(Room room) {
         new CollidableEntity(room, 200, 50, 200, 250, "Sprites/wall.png");
         new CollidableEntity(room, 200, 50, 400, 250, "Sprites/wall.png");
-        new Enemy(room, 50, 50, 300, 300, "Sprites/red.png", 3, 200, 1);
-        new Enemy(room, 50, 50, 500, 300, "Sprites/red.png", 3, 200, 1);
+        randomEnemy(room, 50, 50, 300, 300,  3, 200, 1);
+        randomEnemy(room, 50, 50, 500, 300,  3, 200, 1);
     }
 
     // Preset 6: Croner
     private static void cornerTraps(Room room) {
-        new Enemy(room, 50, 50, 50, 50, "Sprites/red.png", 3, 200, 1);    // Top-left
-        new Enemy(room, 50, 50, 750, 50, "Sprites/red.png", 3, 200, 1);   // Top-right
-        new Enemy(room, 50, 50, 50, 590, "Sprites/red.png", 3, 200, 1);   // Bottom-left
-        new Enemy(room, 50, 50, 750, 590, "Sprites/red.png", 3, 200, 1);  // Bottom-right
+        randomEnemy(room, 50, 50, 50, 50,  3, 200, 1);    // Top-left
+        randomEnemy(room, 50, 50, 750, 50,  3, 200, 1);   // Top-right
+        randomEnemy(room, 50, 50, 50, 590,  3, 200, 1);   // Bottom-left
+        randomEnemy(room, 50, 50, 750, 590,  3, 200, 1);  // Bottom-right
     }
 
     // Preset 7: Item Maze
@@ -73,16 +80,16 @@ public class RoomPresets {
 
     // Preset 8: Gobbos
     private static void enemyHorde(Room room) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 4; i++) {
             int x = 100 + (i % 5) * 100;
             int y = 100 + (i / 5) * 100;
-            new Enemy(room, 30, 30, x, y, "Sprites/red.png", 1, 150, 1);
+            randomEnemy(room, 30, 30, x, y,  1, 150, 1);
         }
     }
 
     // Preset 9: Boss Room
-    private static void bossRoom(Room room) {
-        new Enemy(room, 100, 100, 400, 320, "Sprites/patrol.png", 10, 100, 3);
+    public static void bossRoom(Room room) {
+        new Boss(room,200,200,1000,700,10,700,5);
     }
 
     // Preset 10: Treasure Room
@@ -105,9 +112,7 @@ public class RoomPresets {
     }
 
     // Preset 12: Empty room. I wonder what's in it?
-    private static void emptyRoom(Room room) {
-        // Intentionally left empty
-    }
+
     public static void randomPreset(Room room){
         double chanceForRoom=1.0/12;
         double roll=Math.random();
@@ -128,13 +133,13 @@ public class RoomPresets {
         }else if(roll<8*chanceForRoom){
             enemyHorde(room);
         }else if(roll<9*chanceForRoom){
-             bossRoom(room);
+             treasureRoom(room);
         }else if(roll<10*chanceForRoom){
             treasureRoom(room);
         }else if(roll<11*chanceForRoom){
             patrolGrid(room);
         }else {
-            emptyRoom(room);
+            patrolGrid(room);
         }
     }
 }

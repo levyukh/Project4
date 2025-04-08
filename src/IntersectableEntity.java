@@ -13,7 +13,10 @@ public class IntersectableEntity extends Entity{
         super(room,w,h,x,y,image,false);
         this.collidable = room.getCollidableEntities();
     }
-
+    public IntersectableEntity(Room room, int w, int h, int x, int y, BufferedImage[] image){
+        super(room,w,h,x,y,image,false);
+        this.collidable = room.getCollidableEntities();
+    }
 
     public void collisionLogic() {
 

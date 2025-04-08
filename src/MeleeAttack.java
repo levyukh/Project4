@@ -32,7 +32,7 @@ public class MeleeAttack extends Attack{
                 xSpawn=getAttacker().getX();
             }
 
-            new DamagableZone(getAttacker().getRoom(),width,height,xSpawn,ySpawn,"Sprites/red.png",2,0.1,getAttacker());
+            new DamagableZone(getAttacker().getRoom(),width,height,xSpawn,ySpawn,TileMap.loadImagesFromDirectory("Sprites/MeleeAttack"),2,0.1,getAttacker());
             cantAttack();
             setCooldown(1);
         }

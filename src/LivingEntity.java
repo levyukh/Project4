@@ -10,6 +10,9 @@ public class LivingEntity extends CollidableEntity{
         room.addDamagable(this);
 
     }
+    public void flipSpeed(){
+        speed=-speed;
+    }
     protected void movementLogic(){
         if(collided()) speed=-speed;
         getSpeed().setVector(speed,0);

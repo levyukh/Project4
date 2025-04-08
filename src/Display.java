@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
+
 
 
 
@@ -30,11 +30,14 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
         for (int i=0;i<rooms.length;i++) {
             for(int j=0;j<rooms[0].length;j++) {
                 rooms[i][j] = new Room("Sprites/floor.png", 40, 32, maze[i][j][0], maze[i][j][1], maze[i][j][2], maze[i][j][3]);
-                RoomPresets.randomPreset(rooms[i][j]);
+                if (!(i == 0 && j == 0) && !(i == rooms.length - 1 && j == rooms[0].length - 1)) {
+                    RoomPresets.randomPreset(rooms[i][j]);
+                }
             }
 
         }
-        player=new Player(rooms,100,100,70,70,"Sprites/image.png",3,500,2,0,0);
+        RoomPresets.bossRoom(rooms[rooms.length-1][rooms[0].length-1]);
+        player=new Player(rooms,80,115,70,70,3,500,2,0,0);
         gameLoop=new Thread(new GameLoop(player,this));
     }
     public Display(int width, int height, String title){
@@ -85,6 +88,14 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
             player.drawInventory(g2d);
         } else if (GameLoop.getGameState() == 2) {
             drawGameOverScreen(g2d);
+        } else if (GameLoop.getGameState()==3) {
+            BufferedImage sprite=null;
+            try {
+                sprite = ImageIO.read(new File("Sprites/winScreen.png"));
+            } catch (IOException e) {
+                System.out.println("nope");
+            }
+            g2d.drawImage(sprite,500,700,1500,1000,null);
         }
     }
 
@@ -144,7 +155,7 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
+        if (e.getButton() == MouseEvent.BUTTON1&&player.getStun()<=0) {
             player.setTargetPos(new Vector2(e.getX(), e.getY()));
             player.attack();
         }else {

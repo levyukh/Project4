@@ -27,9 +27,10 @@ public class Player extends Enemy{
     private Attack[] attacks={new MeleeAttack(this),null,null,null};
     private GameLoop gameLoop;
 
-    public Player(Room[][] rooms,int w, int h, int x, int y,String spitePath,int hp,int speed,int attackStat,int roomX, int roomY){
-        super(rooms[roomY][roomX],w,h,x,y,spitePath,hp,speed,attackStat);
 
+    public Player(Room[][] rooms,int w, int h, int x, int y,int hp,int speed,int attackStat,int roomX, int roomY){
+        super(rooms[roomY][roomX],w,h,x,y,hp,speed,attackStat);
+        animations=loadAnimations("Sprites/PlayerAnimation");
         try {
             inventoryGui = ImageIO.read(new File("Sprites/inventoryGui.png"));
             selectedGui= ImageIO.read(new File("Sprites/selectedGui.png"));
@@ -132,7 +133,9 @@ public class Player extends Enemy{
         }
         return false;
     }
-
+    public void setGameState(int state){
+        GameLoop.setGameState(state);
+    }
     @Override
     protected void die() {
         super.die();

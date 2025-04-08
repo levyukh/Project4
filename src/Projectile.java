@@ -7,6 +7,10 @@ public class Projectile extends DamagableZone{
         setSpeed(direction(enemyX,enemyY,speed));
 
     }
+    public Projectile(Room room, int w, int h, int x, int y, BufferedImage[] image, int attack, double timer, LivingEntity creator,int enemyX, int enemyY,int speed) {
+        super(room, w, h, x, y, image, attack, timer, creator);
+        setSpeed(direction(enemyX,enemyY,speed));
+    }
     public Projectile(Room room, int w, int h, int x, int y, BufferedImage image, int attack, double timer, LivingEntity creator,int enemyX, int enemyY,int speed) {
         super(room, w, h, x, y, image, attack, timer, creator);
         setSpeed(direction(enemyX,enemyY,speed));

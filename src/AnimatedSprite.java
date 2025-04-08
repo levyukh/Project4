@@ -29,6 +29,6 @@ public class AnimatedSprite extends StaticSprite{
     @Override
     public void draw(Graphics2D graphic, int x, int y, int width, int height) {
         updateFrame();
-        super.draw(graphic, x, y, animation[frame].getWidth()/animation[0].getWidth()*width, animation[frame].getHeight()/animation[0].getHeight()*height);
+        super.draw(graphic, x, y, (int)(animation[frame].getWidth()/(double)animation[0].getWidth()*width), (int)(animation[frame].getHeight()/(double)animation[0].getHeight()*height));
     }
 }

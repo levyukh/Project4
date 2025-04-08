@@ -23,6 +23,14 @@ public class DamagableZone extends IntersectableEntity{
         this.timer=timer;
         this.creator=creator;
     }
+    public DamagableZone(Room room, int w, int h, int x, int y, BufferedImage[] image,int attack, double timer,LivingEntity creator) {
+        super(room, w, h, x, y, image);
+        HashSet<Entity> newCollidable = new HashSet<>(room.getDamagableEntities());
+        setCollidable(newCollidable);
+        this.attack=attack;
+        this.timer=timer;
+        this.creator=creator;
+    }
 
     public HashSet<LivingEntity> getEntitiesHit() {
         return entitiesHit;

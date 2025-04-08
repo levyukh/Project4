@@ -36,7 +36,7 @@ public class Attack {
     public void doAttack(){
 
         if(attacker.getTargetPos()!=null&&canAttack) {
-            new Projectile(attacker.getRoom(), 20, 20, attacker.getX(), attacker.getY(), "Sprites/red.png",
+            new Projectile(attacker.getRoom(), 40, 40, attacker.getX()+attacker.getWidth()/2, attacker.getY()+attacker.getHeight()/2, TileMap.loadImagesFromDirectory("Sprites/SlimeAttack"),
             attacker.getAttackStat(), 10, attacker, attacker.getTargetPos().getX(), attacker.getTargetPos().getY(), 600);
             canAttack=false;
             cooldown=2;

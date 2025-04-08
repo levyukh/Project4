@@ -44,6 +44,11 @@ public class Entity {
 
         this.room=room;
     }
+
+    public void setSprite(StaticSprite sprite) {
+        this.sprite = sprite;
+    }
+
     public Entity(Room room, int width, int height, int x, int y, BufferedImage[] image, boolean addToCollidables){
         position=new Vector2(x,y);
         this.width=width;
