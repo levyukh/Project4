@@ -15,7 +15,7 @@ public class MindBolt extends Attack{
             new Projectile(getAttacker().getRoom(), 20, 20, getAttacker().getX()+getAttacker().getWidth()/2, getAttacker().getY()+getAttacker().getHeight()/2,"Sprites/mindBolt.png",
                     getAttacker().getAttackStat(), 20, getAttacker(),getAttacker().getTargetPos().getX(), getAttacker().getTargetPos().getY()+200, 450);
             cantAttack();
-            setCooldown(3);
+            setCooldown(4);
         }
     }
 }
