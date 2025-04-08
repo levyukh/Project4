@@ -98,7 +98,7 @@ public class RoomPresets {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 int x = 200 + i * 200;
-                int y = 150 + j * 150;
+                int y = 200 + j * 150;
                 new LivingEntity(room, 50, 50, x, y, "Sprites/patrol.png", 3, 200);
             }
         }
