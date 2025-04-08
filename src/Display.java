@@ -2,6 +2,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
 
         }
         RoomPresets.bossRoom(rooms[rooms.length-1][rooms[0].length-1]);
-        player=new Player(rooms,80,115,70,70,11,500,2,0,0);
+        player=new Player(rooms,80,115,70,70,16, 16, 500,2,0,0);
         gameLoop=new Thread(new GameLoop(player,this));
     }
     public Display(int width, int height, String title){
@@ -86,6 +87,7 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
         } else if (GameLoop.getGameState() == 1) {
             player.getRoom().drawRoom(g2d);
             player.drawInventory(g2d);
+            drawHP(g2d);
         } else if (GameLoop.getGameState() == 2) {
             drawGameOverScreen(g2d);
         } else if (GameLoop.getGameState()==3) {
@@ -95,18 +97,35 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
             } catch (IOException e) {
                 System.out.println("nope");
             }
-            g2d.drawImage(sprite,500,700,1500,1000,null);
+            g2d.drawImage(sprite,0,0,1408,1024,null);
         }
     }
 
-    public void drawTitleScreen(Graphics2D graphic) {
+    private void drawHP(Graphics2D graphic) {
+        Rectangle hpBarBack = new Rectangle(1232, 32, 32, 200);
+        graphic.setColor(Color.BLACK);
+        graphic.fill(hpBarBack);
+        Rectangle hpBarDark = new Rectangle(1236, 36, 24, 192);
+        graphic.setColor(Color.getHSBColor(0, 1, 0.378f));
+        graphic.fill(hpBarDark);
+        int hpBarHeight = (int) Math.round((192.0 / player.getMaxHP()) * player.getHp());
+        Rectangle hpBarLight = new Rectangle(1236, 36 + (192 - hpBarHeight), 24, hpBarHeight);
+        if (player.getHp() == player.getMaxHP()) {
+            hpBarLight.height = 192;
+            hpBarLight.y = 36;
+        }
+        graphic.setColor(Color.RED);
+        graphic.fill(hpBarLight);
+    }
+
+    private void drawTitleScreen(Graphics2D graphic) {
         graphic.drawImage(titleScreenImage, 0, 0, 1408, 1024, null);
         add(startButton);
         startButton.setLocation(512, 512);
         startButton.setSize(384, 96);
     }
 
-    public void drawGameOverScreen(Graphics2D graphic) {
+    private void drawGameOverScreen(Graphics2D graphic) {
         graphic.drawImage(gameOverScreenImage, 0, 0, 1408, 1024, null);
         add(endButton);
         endButton.setLocation(512, 880);

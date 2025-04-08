@@ -13,7 +13,7 @@ public class MoneyCannon extends Attack{
                     getAttacker().getAttackStat(), 10, getAttacker(),getAttacker().getTargetPos().getX()+20, getAttacker().getTargetPos().getY(), 800);
 
             cantAttack();
-            setCooldown(0.2);
+            setCooldown(0.5);
         }
     }
 }

@@ -89,7 +89,7 @@ public class RoomPresets {
 
     // Preset 9: Boss Room
     public static void bossRoom(Room room) {
-        new Boss(room,200,200,1000,700,10,700,5);
+        new Boss(room,200,200,1000,700,100,700,3);
     }
 
     // Preset 10: Treasure Room

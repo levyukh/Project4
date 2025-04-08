@@ -29,7 +29,11 @@ public class Item {
     }
 
     public void useItem(){
-        player.heal(3);
+        int healAmt = 4;
+        if (player.getHP() > player.getMaxHP() - healAmt) {
+            healAmt -= healAmt - (player.getMaxHP() - player.getHP());
+        }
+        player.heal(healAmt);
         player.removeFromInventory(placeInInventory);
         System.out.println(placeInInventory);
         System.out.println("healed");

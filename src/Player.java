@@ -24,12 +24,14 @@ public class Player extends Enemy{
     private boolean dash=false;
     private Item[] inventory=new Item[5];
     private int selected=0;
+    private int maxHP;
     private Attack[] attacks={new MeleeAttack(this),null,null,null};
     private GameLoop gameLoop;
 
 
-    public Player(Room[][] rooms,int w, int h, int x, int y,int hp,int speed,int attackStat,int roomX, int roomY){
+    public Player(Room[][] rooms,int w, int h, int x, int y,int hp,int maxHP,int speed,int attackStat,int roomX, int roomY){
         super(rooms[roomY][roomX],w,h,x,y,hp,speed,attackStat);
+        this.maxHP = maxHP;
         animations=loadAnimations("Sprites/PlayerAnimation");
         try {
             inventoryGui = ImageIO.read(new File("Sprites/inventoryGui.png"));
@@ -115,7 +117,10 @@ public class Player extends Enemy{
         if(canAddEssences) {
             System.out.println("essence added");
             raiseAttack(essence.getAttackRaise());
-            heal(essence.getHpRaise());
+            maxHP += essence.getHpRaise();
+            if (getHp() < maxHP) {
+                heal(essence.getHpRaise());
+            }
             raiseSpeedStat(essence.getSpeedRaise());
             for (int i = 0; i < attacks.length; i++) {
                 if (attacks[i] == null) {
@@ -184,7 +189,13 @@ public class Player extends Enemy{
 
     }
 
+    public int getHP() {
+        return getHp();
+    }
 
+    public int getMaxHP() {
+        return maxHP;
+    }
 
     @Override
     public void move() {
