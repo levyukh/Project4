@@ -7,7 +7,19 @@ import java.io.IOException;
 
 
 public class TileMap {
+    public static BufferedImage[] loadImagesFromDirectory(String directoryPath){
 
+        File[] files = new File(directoryPath).listFiles();
+        BufferedImage[] images=new BufferedImage[files.length];
+        for (int i = 0; i <images.length ; i++) {
+            try {
+                images[i] = ImageIO.read(files[i]);
+            } catch (IOException e) {
+                System.out.println("nuh uh");
+            }
+        }
+        return images;
+    }
     public static BufferedImage tileMapMaker(BufferedImage image,int x, int y)  {
         BufferedImage tileMap;
         tileMap=new BufferedImage(image.getWidth()*x,image.getHeight()*y,BufferedImage.TYPE_INT_ARGB);

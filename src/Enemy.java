@@ -69,7 +69,7 @@ public class Enemy extends LivingEntity{
     protected void die() {
         super.die();
         if(Math.random()<0.9){
-            new OverworldEssence(this,"Sprites/EssenceAnimation/essence0.png");
+            new OverworldEssence(this,TileMap.loadImagesFromDirectory("Sprites/EssenceAnimation"));
         }
     }
 

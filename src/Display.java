@@ -34,7 +34,6 @@ public class Display extends JPanel implements KeyListener, MouseListener {
         gameLoop=new Thread(new GameLoop(player,this));
     }
     public Display(int width, int height, String title){
-
         start();
         JFrame frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
