@@ -82,6 +82,7 @@ public class Player extends Enemy{
     public int getSelected() {
         return selected;
     }
+
     public void drawInventory(Graphics2D graphic){
         for(int i=0;i<inventory.length;i++){
             if(i!=selected) {

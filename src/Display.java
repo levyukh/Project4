@@ -1,16 +1,14 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
 
-public class Display extends JPanel implements KeyListener, MouseListener {
+public class Display extends JPanel implements KeyListener, MouseListener, ActionListener {
 
 
   Room[][] rooms=new Room[10][10];
@@ -19,6 +17,9 @@ public class Display extends JPanel implements KeyListener, MouseListener {
 
     Player player;
     Thread gameLoop;
+    private BufferedImage titleScreenImage;
+    private JButton startButton;
+
     public void start(){
         boolean[][][] maze = MazeGenerator.maze(rooms.length, rooms[0].length);
 
@@ -52,10 +53,16 @@ public class Display extends JPanel implements KeyListener, MouseListener {
         } catch (IOException e) {
             System.out.println("Icon image not found!");
         }
+        try {
+            titleScreenImage = ImageIO.read(new File("Sprites/titleScreen.png"));
+        } catch (IOException e) {
+            System.out.println("Title screen image not found");
+        }
         requestFocusInWindow();
         gameLoop.start();
 
-
+        startButton = new JButton("Start Game");
+        startButton.addActionListener(this);
     }
 
 
@@ -63,9 +70,26 @@ public class Display extends JPanel implements KeyListener, MouseListener {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);  // always put this
         Graphics2D g2d = (Graphics2D) g;
-        player.getRoom().drawRoom(g2d);
-        player.drawInventory(g2d);
+        if (GameLoop.getGameState() == 0) {
+            drawTitleScreen(g2d);
+        } else if (GameLoop.getGameState() == 1) {
+            player.getRoom().drawRoom(g2d);
+            player.drawInventory(g2d);
+        }
 
+    }
+
+    public void drawTitleScreen(Graphics2D graphic) {
+        graphic.drawImage(titleScreenImage, 0, 0, 1408, 1024, null);
+
+        add(startButton);
+        startButton.setLocation(512, 512);
+        startButton.setSize(384, 96);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        GameLoop.setGameState(1);
+        remove(startButton);
     }
 
     @Override
