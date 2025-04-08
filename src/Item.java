@@ -35,7 +35,6 @@ public class Item {
         }
         player.heal(healAmt);
         player.removeFromInventory(placeInInventory);
-        System.out.println(placeInInventory);
         System.out.println("healed");
     }
 

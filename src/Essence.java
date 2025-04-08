@@ -5,9 +5,9 @@ public class Essence {
     private int speedRaise;
     public Essence(Enemy enemy) {
         attack=enemy.getAttack();
-        attackRaise=1;
+        attackRaise=(enemy.getAttackStat()/2)+1;
         hpRaise=1;
-        speedRaise=10;
+        speedRaise=50;
     }
 
     public Attack getAttack() {
