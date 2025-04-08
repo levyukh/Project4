@@ -9,7 +9,7 @@ public class LeafEnemy extends Enemy{
     protected void movementLogic() {
         if(collided()) flipSpeed();
         getSpeed().setVector(getSpeedStat(),0);
-        //attack();
+        attack();
 
     }
 }

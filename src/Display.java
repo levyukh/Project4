@@ -37,7 +37,7 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
 
         }
         RoomPresets.bossRoom(rooms[rooms.length-1][rooms[0].length-1]);
-        player=new Player(rooms,80,115,70,70,3,500,2,0,0);
+        player=new Player(rooms,80,115,70,70,11,500,2,0,0);
         gameLoop=new Thread(new GameLoop(player,this));
     }
     public Display(int width, int height, String title){
