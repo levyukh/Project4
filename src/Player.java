@@ -136,7 +136,7 @@ public class Player extends Enemy{
     @Override
     protected void die() {
         super.die();
-       gameLoop.stopRunning();
+        GameLoop.setGameState(2);
 
     }
 

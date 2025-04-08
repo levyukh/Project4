@@ -65,7 +65,7 @@ public class RoomPresets {
     private static void itemMaze(Room room) {
         new CollidableEntity(room, 200, 50, 100, 200, "Sprites/wall.png");
         new CollidableEntity(room, 200, 50, 500, 200, "Sprites/wall.png");
-        new CollidableEntity(room, 50, 200, 300, 100, "Sprites/wall.png");
+        new CollidableEntity(room, 50, 200, 300, 300, "Sprites/wall.png");
         new CollidableEntity(room, 50, 200, 500, 300, "Sprites/wall.png");
         new OverworldItem(room, 50, 50, 150, 150, new Item());
         new OverworldItem(room, 50, 50, 650, 350, new Item());

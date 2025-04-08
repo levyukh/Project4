@@ -15,11 +15,13 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
   Room[][] rooms=new Room[10][10];
 
 
-
+    private JFrame frame;
     Player player;
     Thread gameLoop;
     private BufferedImage titleScreenImage;
+    private BufferedImage gameOverScreenImage;
     private JButton startButton;
+    private JButton endButton;
 
     public void start(){
         boolean[][][] maze = MazeGenerator.maze(rooms.length, rooms[0].length);
@@ -38,7 +40,8 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
     public Display(int width, int height, String title){
         start();
         startButton = new JButton("Start Game");
-        JFrame frame = new JFrame(title);
+        endButton = new JButton("No, actually");
+        frame = new JFrame(title);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(width, height);
         frame.setLocationRelativeTo(null);
@@ -59,12 +62,15 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
         } catch (IOException e) {
             System.out.println("Title screen image not found");
         }
+        try {
+            gameOverScreenImage = ImageIO.read(new File("Sprites/gameOverScreen.png"));
+        } catch (IOException e) {
+            System.out.println("Game over screen image not found");
+        }
         requestFocusInWindow();
         startButton.addActionListener(this);
+        endButton.addActionListener(this);
         gameLoop.start();
-
-
-
     }
 
 
@@ -77,8 +83,9 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
         } else if (GameLoop.getGameState() == 1) {
             player.getRoom().drawRoom(g2d);
             player.drawInventory(g2d);
+        } else if (GameLoop.getGameState() == 2) {
+            drawGameOverScreen(g2d);
         }
-
     }
 
     public void drawTitleScreen(Graphics2D graphic) {
@@ -88,9 +95,24 @@ public class Display extends JPanel implements KeyListener, MouseListener, Actio
         startButton.setSize(384, 96);
     }
 
+    public void drawGameOverScreen(Graphics2D graphic) {
+        graphic.drawImage(gameOverScreenImage, 0, 0, 1408, 1024, null);
+        add(endButton);
+        endButton.setLocation(512, 880);
+        endButton.setSize(384, 96);
+    }
+
     public void actionPerformed(ActionEvent e) {
-        GameLoop.setGameState(1);
-        remove(startButton);
+        if (e.getSource() instanceof JButton) {
+            JButton casted = (JButton) e.getSource();
+            if (casted == startButton) {
+                GameLoop.setGameState(1);
+                remove(startButton);
+            } else if (casted == endButton) {
+                frame.dispose();
+                System.exit(0);
+            }
+        }
     }
 
     @Override
